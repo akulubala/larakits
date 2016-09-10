@@ -1,0 +1,33 @@
+{
+    "name": "ray-cheng/larakits",
+    "description": "Prepare your Laravel apps incredibly fast, with various commands, services, facades and boilerplates.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ray Cheng",
+            "email": "akulubala@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "5.*",
+        "doctrine/dbal": "^2.5",
+        "laravelcollective/html": "^5.3",
+        "illuminate/container": "^5.2|^5.1",
+        "alfredo-ramos/parsedown-extra-laravel": "~0.3",
+        "mockery/mockery": "^0.9.4",
+        "mikey179/vfsStream": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tks\\Larakits\\": "src/"
+        },
+        "files": [
+          "src/Helpers/form_maker.php",
+          "src/Helpers/input_maker.php",
+          "src/Helpers/crypto.php",
+          "src/Helpers/helper.php"
+        ]
+    },
+    "minimum-stability": "stable"
+}

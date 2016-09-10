@@ -1,0 +1,14 @@
+<?php
+/**
+ *| schema column type :
+ *| ['bigIncrements', 'increments','bigInteger','binary','boolean','char','date',
+ *| 'dateTime', 'decimal', 'double', 'enum', 'float', 'integer', 'ipAddress', 'json', 'jsonb', 
+ *| 'longText', 'macAddress', 'mediumInteger', 'mediumText', 'morphs', 'smallInteger', 'string', 
+ *| 'string', 'text', 'time', 'tinyInteger', 'timestamp', 'uuid']
+ *| example:
+ *| ['user_name' => 'string', 'cell_phone' => 'integer']
+ *|
+ *| notice: every schema have id, created_at, upadted_at by default
+ */
+
+return [];

@@ -1,0 +1,11 @@
+<?php
+/**
+ *| schema html column type :
+ *| ['text', 'textarea', 'hidden', 'password', 'select', 'muti_select', 'radio', 'checkbox', 'file', 'muti_file', 'date', 'datetime']
+ *| example:
+ *| ['user_name' => 'text', 'cell_phone' => 'text']
+ *|
+ *| notice: every schema have id, created_at, upadted_at by default
+ */
+
+return [];

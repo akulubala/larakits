@@ -1,0 +1,7 @@
+@if (Route::currentRouteName() === 'admin._lower_casePlural_.create')
+  {!! Form::open(['route' => 'admin._lower_casePlural_.store', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+@else
+  {!! Form::model($_lower_case_, ['route' => ['admin._lower_casePlural_.update', $user->id], 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
+@endif
+_form_elements
+{{!! Form::close() !!}}
