@@ -98,12 +98,7 @@ class LarakitsProvider extends ServiceProvider
 
         $this->commands([
             \Tks\Larakits\Console\Api::class,
-            \Tks\Larakits\Console\Billing::class,
-            \Tks\Larakits\Console\Notifications::class,
-            \Tks\Larakits\Console\Socialite::class,
-            \Tks\Larakits\Console\Docs::class,
             \Tks\Larakits\Console\Crud::class,
-            \Tks\Larakits\Console\TableCrud::class,
             \Tks\Larakits\Console\Starter::class,
         ]);
     }
