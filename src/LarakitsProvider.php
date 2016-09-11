@@ -5,7 +5,6 @@ namespace Tks\Larakits;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Tks\Larakits\Kits\Crypto;
 use Tks\Larakits\Kits\FormElementMaker;
 use Tks\Larakits\Kits\FormMaker;
 
@@ -38,7 +37,6 @@ class LarakitsProvider extends ServiceProvider
         */
 
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
-        $this->app->register(\AlfredoRamos\ParsedownExtra\ParsedownExtraServiceProvider::class);
         /*
         |--------------------------------------------------------------------------
         | Register the Kits
@@ -50,45 +48,20 @@ class LarakitsProvider extends ServiceProvider
         $this->app->singleton('FormElementMaker', function () {
             return new FormElementMaker();
         });
-        $this->app->singleton('Crypto', function () {
-            return new Crypto();
-        });
         $loader = AliasLoader::getInstance();
         $loader->alias('FormMaker', \Tks\Larakits\Facades\FormMaker::class);
-        $loader->alias('FormElementMaker', \Tks\Larakits\Facades\InputMaker::class);
-        $loader->alias('Crypto', \Tks\Larakits\Kits\Crypto::class);
-        $loader->alias('Markdown', \AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class);
         // Thrid party
         $loader->alias('Form', \Collective\Html\FormFacade::class);
         $loader->alias('HTML', \Collective\Html\HtmlFacade::class);
 
-        $this->app->singleton('Crypto', function ($app) {
-            return new Crypto($app);
-        });
+
 
         $loader = AliasLoader::getInstance();
 
-        $loader->alias('Crypto', \Tks\Larakits\Utilities\Crypto::class);
-        $loader->alias('Markdown', \AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class);
-
         // Thrid party
         $loader->alias('Form', \Collective\Html\FormFacade::class);
         $loader->alias('HTML', \Collective\Html\HtmlFacade::class);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Blade Directives
-        |--------------------------------------------------------------------------
-        */
-
-        // Crypto
-        Blade::directive('crypto_encrypt', function($expression) {
-            return "<?php echo Crypto::encrypt$expression; ?>";
-        });
-
-        Blade::directive('crypto_decrypt', function($expression) {
-            return "<?php echo Crypto::encrypt$expression; ?>";
-        });
 
         /*
         |--------------------------------------------------------------------------

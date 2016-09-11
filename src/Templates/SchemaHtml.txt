@@ -4,8 +4,16 @@
  *| ['text', 'textarea', 'hidden', 'password', 'select', 'muti_select', 'radio', 'checkbox', 'file', 'muti_file', 'date', 'datetime']
  *| example:
  *| ['user_name' => 'text', 'cell_phone' => 'text']
- *|
- *| notice: every schema have id, created_at, upadted_at by default
- */
+ *| select, muti_select illustration:
+ *| select takes parameters, parameter have table relationship or array types,
+ *| 1. for comments table belongsTo one post
+ *| ['comments' => 'select|\App\Repositories\Post\Post::lists('title', 'id') will display post title column to html
+ *| 2. for comment have one comment type.  
+ *| ['comments' => 'select|[\'news\', \'blog\', \'movie\', \'novel\']'] will display comment type to html
+ *| muti_select noly takes from database,
+ *| for user have muti roles, this will have three tables: users, roles, role_user
+ *| ['role_id[]' => 'muti_select|belongsToMany:roles,role_name'] wil dipley role name to be select by user in html
+ *| notice: lists page have default id include
+ **/
 
 return [];
