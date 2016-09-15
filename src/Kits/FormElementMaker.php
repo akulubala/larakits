@@ -31,16 +31,24 @@ class FormElementMaker
      */
     public function create($name, $type)
     {
-        $extras = null;
+       $first = null;
+       $second = null;
+       $third = null;
         if (str_contains($type, '|')) {
             $typeArrays = explode('|', $type);
+            if (count($typeArrays) > 4) {
+                throw new \Exception("$type have too much extras params!", 1);
+            }
             $type = $typeArrays[0];
-            $extras = $typeArrays[1];
+            $first = isset($typeArrays[1]) ? $typeArrays[1] : null;
+            $second = isset($typeArrays[2]) ? $typeArrays[2] : null;
+            $third = isset($typeArrays[3]) ? $typeArrays[3] : null;
+
         }
         if (!in_array($type, $this->elementTypes)) {
             throw new \Exception("$type is not supported, please change you form defination file", 1);
         } else {
-            return call_user_func(array($this, 'make'.ucfirst($type)), $name, $extras);
+            return call_user_func(array($this, 'make'.ucfirst($type)), $name, $first, $second, $third);
         }
     }
     /**
@@ -49,7 +57,7 @@ class FormElementMaker
      * @param  [type] $extras [no need in this function]
      * @return [type]         [description]
      */
-    public function makeText($name, $extras = null)
+    public function makeText($name, $first = null, $second = null, $third = null)
     {
         $string = <<<EOD
 <div class="form-group">
@@ -67,7 +75,7 @@ EOD;
      * @param  [type] $extras [description]
      * @return [type]         [description]
      */
-    public function makeTextarea($name, $extras = null)
+    public function makeTextarea($name, $first = null, $second = null, $third = null)
     {
         $string = <<<EOD
 <div class="form-group">
@@ -80,7 +88,7 @@ EOD;
         return $string;
     }
 
-    public function makeHidden($name, $extras = null)
+    public function makeHidden($name, $first = null, $second = null, $third = null)
     {
         $string = <<<EOD
 <div class="form-group">
@@ -93,7 +101,7 @@ EOD;
         return $string;
     }
 
-    public function makePassword($name, $extras = null)
+    public function makePassword($name, $first = null, $second = null, $third = null)
     {
         $string = <<<EOD
 <div class="form-group">
@@ -106,76 +114,59 @@ EOD;
         return $string;
     }
 
-    public function makeSelect($name, $selectValues)
+    public function makeSelect($name, $dropDownValues, $second = null, $third = null)
     {
         $string = <<<EOD
 <div class="form-group">
     <label class="col-sm-2 control-label">{{ trans('$name') }}</label>
     <div class="col-sm-10">
-        {!! Form::select('$name', $selectValues, null, ["class" => "form-control select2", "placeholder" => trans('$name')]) !!}
+        {!! Form::select('$name', $dropDownValues, null, ["class" => "form-control select2", "placeholder" => trans('$name')]) !!}
     </div>
 </div>\n
 EOD;
         return $string;
     }
 
-    public function makeMutiSelect($name, $extras = null)
+    public function makeMutiSelect($name, $dropDownValues, $selectedValues = null, $third = null)
     {
-        $relationShips = explode(':', $extras);
-        $relationType = $relationShips[0];
-        $selectValues = $relationShips[1];
-
         $string = <<<EOD
 <div class="form-group">
     <label class="col-sm-2 control-label">{{ trans('$name') }}</label>
     <div class="col-sm-10">
-        {!! Form::text('$name\[\]', null, ["class" => "form-control", "placeholder" => trans('$name')]) !!}
+        {!! Form::select('$name\[\]', $dropDownValues, is_null($selectedValue) ? null : $selectedValues, ["class" => "form-control select2","mutiple" => "mutiple" "placeholder" => trans('$name')]) !!}
     </div>
 </div>\n
 EOD;
         return $string;
     }
 
-    public function makeRadio($name, $extras = null)
+    public function makeRadio($name, $value = null, $checked = false, $third = null)
     {
         $string = <<<EOD
 <div class="form-group">
     <label class="col-sm-2 control-label">{{ trans('$name') }}</label>
     <div class="col-sm-10">
-        {!! Form::text('$name', null, ["class" => "form-control", "placeholder" => trans('$name')]) !!}
+        {!! Form::radio('$name', '$value', $checked, ["class" => "form-control", "placeholder" => trans('$name')]) !!}
     </div>
 </div>\n
 EOD;
         return $string;
     }
 
-    public function makeCheckBox($name, $extras = null)
+    public function makeCheckBox($name, $value = null, $checked = false, $third = null)
     {
         $string = <<<EOD
 <div class="form-group">
     <label class="col-sm-2 control-label">{{ trans('$name') }}</label>
     <div class="col-sm-10">
-        {!! Form::text('$name', null, ["class" => "form-control", "placeholder" => trans('$name')]) !!}
+        {!! Form::text('$name', '$value', $checked, ["class" => "form-control", "placeholder" => trans('$name')]) !!}
     </div>
 </div>\n
 EOD;
         return $string;
     }
 
-    public function makeFile($name, $extras = null)
-    {
-        $string = <<<EOD
-<div class="form-group">
-    <label class="col-sm-2 control-label">{{ trans('$name') }}</label>
-    <div class="col-sm-10">
-        {!! Form::text('$name', null, ["class" => "form-control", "placeholder" => trans('$name')]) !!}
-    </div>
-</div>\n
-EOD;
-        return $string;
-    }
-
-    public function makeMutiFile($name, $extras = null)
+    public function makeFile($name, $first = null, $second = null, $third = null)
     {
         $string = <<<EOD
 <div class="form-group">
@@ -188,7 +179,7 @@ EOD;
         return $string;
     }
 
-    public function makeDate($name, $extras = null)
+    public function makeMutiFile($name, $first = null, $second = null, $third = null)
     {
         $string = <<<EOD
 <div class="form-group">
@@ -201,7 +192,20 @@ EOD;
         return $string;
     }
 
-    public function makeDatetime($name, $extras = null)
+    public function makeDate($name, $first = null, $second = null, $third = null)
+    {
+        $string = <<<EOD
+<div class="form-group">
+    <label class="col-sm-2 control-label">{{ trans('$name') }}</label>
+    <div class="col-sm-10">
+        {!! Form::text('$name', null, ["class" => "form-control", "placeholder" => trans('$name')]) !!}
+    </div>
+</div>\n
+EOD;
+        return $string;
+    }
+
+    public function makeDatetime($name, $first = null, $second = null, $third = null)
     {
         $string = <<<EOD
 <div class="form-group">

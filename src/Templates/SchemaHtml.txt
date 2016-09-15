@@ -7,12 +7,20 @@
  *| select, muti_select illustration:
  *| select takes parameters, parameter have table relationship or array types,
  *| 1. for comments table belongsTo one post
- *| ['comments' => 'select|\App\Repositories\Post\Post::lists('title', 'id') will display post title column to html
+ *| ['comments' => 'select|\Post::all()->lists('title', 'id')->toArray()] will display post title column to html
+ *|	in order to retrieve all post, you must add these line to App\Providers\AppServiceProvider()->register()  function:
+ *|      $this->app->bind('Post', function ($app){
+ *|           return $app->make(App\Services\PostService::class);
+ *|     });
+ *|     class_alias(App\Facades\Post::class, 'Post');
+ *|  or find a similar way.
+ *|
  *| 2. for comment have one comment type.  
- *| ['comments' => 'select|[\'news\', \'blog\', \'movie\', \'novel\']'] will display comment type to html
+ *| ['comments' => 'select|array:[\'news\', \'blog\', \'movie\', \'novel\']'] will display comment type to html
  *| muti_select noly takes from database,
  *| for user have muti roles, this will have three tables: users, roles, role_user
- *| ['role_id[]' => 'muti_select|belongsToMany:roles,role_name'] wil dipley role name to be select by user in html
+ *| ['role_id[]' => 'muti_select|\Role::all()->lists('name', id)->toArray()|\User::find($_lower_case_->id)->roles->lists('name', 'id')->toArray()] wil dipley role name to be select by user in html
+ *|  same like single select Role, and User need bind.first param is all roles could be select, second is current already selected, don't change $_lower_case_->id.
  *| notice: lists page have default id include
  **/
 
