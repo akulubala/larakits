@@ -106,17 +106,13 @@ EOD;
         return $string;
     }
 
-    public function makeSelect($name, $extras)
+    public function makeSelect($name, $selectValues)
     {
-        $relationShips = explode(':', $extras);
-        $relationType = $relationShips[0];
-        $selectValues = $relationShips[1];
-
         $string = <<<EOD
 <div class="form-group">
     <label class="col-sm-2 control-label">{{ trans('$name') }}</label>
     <div class="col-sm-10">
-        {!! Form::select('$name', '$selectValues', null, ["class" => "form-control select2", "placeholder" => trans('$name')]) !!}
+        {!! Form::select('$name', $selectValues, null, ["class" => "form-control select2", "placeholder" => trans('$name')]) !!}
     </div>
 </div>\n
 EOD;
