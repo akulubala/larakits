@@ -146,6 +146,9 @@ class Crud extends Command
             $this->line('Building views...');
             $this->generator->createViews();
 
+            $this->line('Building leftsidebar...');
+            $this->generator->createSideBars();
+
             $this->line('Building routes...');
             $this->generator->createRoutes(false);
 

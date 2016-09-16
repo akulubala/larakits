@@ -238,6 +238,24 @@ class CrudGenerator
         return ($createdView);
     }
 
+    public function createSideBars()
+    {
+        $templateSource = file_get_contents($this->config['template_source'].'/Sidebar.txt');
+        foreach ($this->config as $key => $value) {
+            $templateSource =   str_replace($key, $value, $templateSource);
+        }
+        $lines = [];
+        $sideBars = file(resource_path('views/partials/left_sidebar.blade.php'));
+        $countLines = count($sideBars);
+        foreach ($sideBars as $key => $line) {
+            if ($key === $countLines - 3) {
+                array_push($lines, $templateSource);
+            }
+            array_push($lines, $line);
+        }
+        return file_put_contents(resource_path('views/partials/left_sidebar.blade.php'), $lines);
+    }
+
     /**
      * Create the Api
      * @return bool
