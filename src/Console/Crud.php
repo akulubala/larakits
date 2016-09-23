@@ -315,7 +315,7 @@ class Crud extends Command
     {
         return [
             'template_source'            => __DIR__.'/../Templates',
-            'path_schema_definition'     => base_path('database/larakits_definition/database'),
+            'path_schema_definition'     => base_path('database/larakits_definition/tables'),
             'path_schema_html_definition'     => base_path('database/larakits_definition/html'),
             'schema'                     => null,
             '_sectionPrefix_'            => '',

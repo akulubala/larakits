@@ -300,11 +300,11 @@ class CrudGenerator
     public function createSchema($name)
     {
        if (! is_dir($this->config['path_schema_definition'])) {
-            mkdir($this->config['path_schema_definition']);
+            mkdir($this->config['path_schema_definition'], 0755, true);
         } 
 
         if (! is_dir($this->config['path_schema_html_definition'])) {
-            mkdir($this->config['path_schema_html_definition']);
+            mkdir($this->config['path_schema_html_definition'], 0755, true);
         } 
 
         $schemaContent = file_get_contents($this->config['template_source'].'/schema.txt');
