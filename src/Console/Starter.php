@@ -59,10 +59,13 @@ class Starter extends Command
             $this->line("Copying resources/views...");
             $this->copyPreparedFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'resources', base_path('resources'));
 
+            $this->line("Copying routes");
+            $this->copyPreparedFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'routes', base_path('routes'));
+
             $this->line("Copying tests...");
             $this->copyPreparedFiles(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'tests', base_path('tests'));
-            $this->line("Copying gulpfile...");
-            $fileSystem->copy(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'gulpfile.js', base_path('gulpfile.js'));
+            $this->line("Copying webpack.mix.js...");
+            $fileSystem->copy(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Starter'.DIRECTORY_SEPARATOR.'webpack.mix.js', base_path('webpack.mix.js'));
 
             $this->line("Appending database/factory...");
             $this->createFactory();

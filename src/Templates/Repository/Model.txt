@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class _camel_case_ extends Model
 {
-    public $table = "_table_name_";
+    public $table = "_resource_name_";
 
     public $primaryKey = "id";
 
@@ -16,7 +16,7 @@ class _camel_case_ extends Model
         // _camel_case_ table data
     ];
 
-    public $searchClumns = [];
+    public $searchColumns = [];
     
     public static $rules = [
         // create rules

@@ -3,6 +3,7 @@
 namespace Tks\Larakits\Generators;
 
 use Exception;
+use Artisan;
 use Illuminate\Filesystem\Filesystem;
 use Tks\Larakits\Kits\FormMaker;
 
@@ -64,7 +65,6 @@ class CrudGenerator
         if (! empty($this->config['schema'])) {
             $model = str_replace('// _camel_case_ table data', $this->prepareTableDefinition($this->config['schema']), $model);
         }
-
         foreach ($this->config as $key => $value) {
             $repo = str_replace($key, $value, $repo);
             $model = str_replace($key, $value, $model);
@@ -122,7 +122,7 @@ class CrudGenerator
     public function createRoutes($appendRoutes = true)
     {
         if ($appendRoutes) {
-            $routesMaster = app_path('Http/routes.php');
+            $routesMaster = base_path('routes/web.php');
         } else {
             $routesMaster = $this->config['_path_routes_'];
         }
@@ -217,14 +217,13 @@ class CrudGenerator
      * Create the views
      * @return bool
      */
-    public function createViews()
+    public function createViews($resouce)
     {
-        if (! is_dir($this->config['_path_views_'].'/'.$this->config['_lower_casePlural_'])) {
-            mkdir($this->config['_path_views_'].'/'.$this->config['_lower_casePlural_']);
+        if (! is_dir($this->config['_path_views_'].'/'. $resouce)) {
+            mkdir($this->config['_path_views_'].'/'. $resouce);
         } 
         $formMaker = new FormMaker();
-        
-        $this->config['_form_elements'] = $formMaker->fromFileDefinition($this->config['path_schema_html_definition'] . '/' . $this->config['_sectionTablePrefix_'].$this->config['_lower_casePlural_'] . '.php');
+        $this->config['_form_elements'] = $formMaker->fromFileDefinition($this->config['path_schema_html_definition'] . '/' . $this->config['_sectionTablePrefix_']. $resouce . '.php', $resouce);
 
         foreach (glob($this->config['template_source'].'/Views/*') as $file) {
             $createdView = file_get_contents($file);
@@ -232,7 +231,7 @@ class CrudGenerator
             foreach ($this->config as $key => $value) {
                 $createdView = str_replace($key, $value, $createdView);
             }
-            $createdView = file_put_contents($this->config['_path_views_'].'/'.$this->config['_lower_casePlural_'].'/'.$basename, $createdView);
+            $createdView = file_put_contents($this->config['_path_views_'].'/'. $resouce .'/'.$basename, $createdView);
         }
 
         return ($createdView);
@@ -256,6 +255,53 @@ class CrudGenerator
         return file_put_contents(resource_path('views/partials/left_sidebar.blade.php'), $lines);
     }
 
+    public function createTranslation($table)
+    {
+        $locale = config('app.locale');
+
+        $schemaName = $table . '.php';
+
+        $schemaPath = $this->config['path_schema_definition'];
+        $schemaHtmlPath = $this->config['path_schema_html_definition'];
+        $filePath = '';
+
+        if (str_contains($table, '.')) {
+            $schemaName = array_pop(explode('.', $table));
+            $filePath = implode('/', $table).'/';
+
+            $schemaPath = $this->config['path_schema_definition'] . $filePath . $schemaName;
+
+            $schemaHtmlPath = $this->config['path_schema_html_definition'] . $filePath . $schemaName;
+        }
+
+        if ( !$this->filesystem->exists($schemaPath.'/'.$schemaName) ||
+             !$this->filesystem->exists($schemaHtmlPath.'/'.$schemaName) 
+            ) {
+            throw new Exception('Before create translation file, must run --schema first');
+        }
+
+        $schemaDefinations = include_once($schemaPath.'/'.$schemaName);
+        if ( empty($schemaDefinations) ) {
+            throw new Exception('Schema not been filled, must fill your schema: ' . $schemaName . ' first');
+        }
+
+        $schemaDefinations = array_merge([
+                            'index' => 'index', 
+                            'create' => 'index', 
+                            'management' => $schemaName.'management', 
+                            'created_at' => 'created_at'], 
+                            $schemaDefinations);
+        $contents = '<?php  return [';
+        foreach ($schemaDefinations as $key => $value) {
+            $contents .= "\r\t'".$key."'"." => " . "'".$key."',\n";
+        }
+        $contents .= '];';
+
+        return file_put_contents(resource_path('lang/en/'.$filePath.$schemaName), $contents) && 
+               file_put_contents(resource_path('lang/'.$locale.'/'.$filePath.$schemaName), $contents);
+
+    }
+
     /**
      * Create the Api
      * @return bool
@@ -263,7 +309,7 @@ class CrudGenerator
     public function createApi($appendRoutes = true)
     {
         if ($appendRoutes) {
-            $routesMaster = app_path('Http/api-routes.php');
+            $routesMaster = base_path('routes/api.php');
         } else {
             $routesMaster = $this->config['_path_api_routes_'];
         }
@@ -299,20 +345,106 @@ class CrudGenerator
      */
     public function createSchema($name)
     {
-       if (! is_dir($this->config['path_schema_definition'])) {
-            mkdir($this->config['path_schema_definition'], 0755, true);
+        $schemaName = $name.'.php';
+
+        $schemaPath = $this->config['path_schema_definition'];
+        $schemaHtmlPath = $this->config['path_schema_html_definition'];
+
+        if (str_contains($name, '.')) {
+            $schemaName = array_pop(explode('.', $name));
+
+            $schemaPath = $this->config['path_schema_definition'] . implode('/', $name);
+
+            $schemaHtmlPath = $this->config['path_schema_html_definition'] . implode('/', $name);
+        }
+
+       if (! is_dir($schemaPath)) {
+            mkdir($schemaPath, 0755, true);
         } 
 
-        if (! is_dir($this->config['path_schema_html_definition'])) {
-            mkdir($this->config['path_schema_html_definition'], 0755, true);
+        if (! is_dir($schemaHtmlPath)) {
+            mkdir($schemaHtmlPath, 0755, true);
         } 
 
         $schemaContent = file_get_contents($this->config['template_source'].'/schema.txt');
         $schemaHtmlContent = file_get_contents($this->config['template_source'].'/schemaHtml.txt');
-        $schemaName = $name.'.php';
+        
+        return file_put_contents($schemaPath.'/'.$schemaName, $schemaContent) && 
+               file_put_contents($schemaHtmlPath.'/'.$schemaName, $schemaHtmlContent);
+    }
 
-        return file_put_contents($this->config['path_schema_definition'].'/'.$schemaName, $schemaContent) && 
-               file_put_contents($this->config['path_schema_html_definition'].'/'.$schemaName, $schemaHtmlContent);
+    public function createMigrations($table)
+    {
+        if (str_contains($table, '.')) {
+            $migrationName = 'create_'.strtolower(implode('_', explode('.', $table))).'_table';
+            Artisan::call('make:migration', [
+                'name' => $migrationName,
+                '--table' => strtolower(implode('_', explode('.', $table))),
+                '--create' => true,
+            ]);
+        } else {
+            $migrationName = 'create_'.strtolower($table).'_table';
+            Artisan::call('make:migration', [
+                'name' => $migrationName,
+                '--table' => strtolower($table),
+                '--create' => true,
+            ]);
+        }
+        $schemaName = $table . '.php';
+
+        $schemaPath = $this->config['path_schema_definition'];
+        $schemaHtmlPath = $this->config['path_schema_html_definition'];
+        $filePath = '';
+
+        if (str_contains($table, '.')) {
+            $schemaName = array_pop(explode('.', $table));
+            $filePath = implode('/', $table).'/';
+
+            $schemaPath = $this->config['path_schema_definition'] . $filePath . $schemaName;
+
+            $schemaHtmlPath = $this->config['path_schema_html_definition'] . $filePath . $schemaName;
+        }
+        if ( !$this->filesystem->exists($schemaPath.'/'.$schemaName) ||
+             !$this->filesystem->exists($schemaHtmlPath.'/'.$schemaName) 
+            ) {
+            throw new Exception('Before create translation file, must run --schema first');
+        }
+
+        $schemaDefinations = array_merge(['id' => 'increments'], include_once($schemaPath.'/'.$schemaName));
+        if (!empty($schemaDefinations)) {
+            $migrationFiles = $this->filesystem->allFiles(base_path('database/migrations'));
+            foreach ($migrationFiles as $file) {
+                if (stristr($file->getBasename(), $migrationName) ) {
+                    $migrationData = file_get_contents($file->getPathname());
+                    $parsedTable = "";
+                    $i = 0;
+                    foreach ($schemaDefinations as $column => $type) {
+                        $column = "'" . $column . "', ";
+                        if (str_contains($type, '|')) { // if have params
+                            $pareseType = explode('|', $type);
+                            $type = array_shift($pareseType);
+                            foreach ($pareseType as  $value) {
+                                if (!str_contains($value, ']')) { // if have array params
+                                    $value = "'" . $value . "', ";
+                                } else {
+                                    $value = $value . ", ";
+                                }
+                                $column .= $value;
+                            }
+                        }
+                        $column = substr($column, 0, -2);
+                        if ($i === 0) {
+                                $parsedTable .= "\$table->$type($column);\n";
+                        } else {
+                                $parsedTable .= "\t\t\t\$table->$type($column)->nullable();\n";
+                        }
+                        $i++;
+                    }
+                    $migrationData = str_replace("\$table->increments('id');", $parsedTable, $migrationData);
+                    file_put_contents($file->getPathname(), $migrationData);
+                }
+            }
+        }
     }
 
     /**

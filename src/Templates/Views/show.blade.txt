@@ -1,5 +1,19 @@
-<div class="container">
-
-    <!-- Put fields here -->
-
-</div>
+@extends('layouts._prefix_lower_')
+@section('content')
+    <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-body table-responsive">
+              <table class="table table-hover table-bordered">
+                <tbody>
+                    <tr>
+                    	<td>ID</td>
+                        <td>{{ $_camel_caseSingular->id }}</td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+@stop

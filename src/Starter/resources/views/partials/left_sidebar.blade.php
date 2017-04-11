@@ -7,7 +7,7 @@
             <i class="fa fa-dashboard"></i> <span>数据中心</span>
           </a>
         </li>
-        <li class="treeview {{ sidebar_open(['admin.users.*', 'user_invite.get']) }}">
+        <li class="treeview {{ sidebar_open(['admin.users.*']) }}">
           <a href="#">
             <i class="fa fa-users"></i>
             <span>用户管理</span>
@@ -15,8 +15,8 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul {!! treeview_menu_open(['admin.users.index', 'user_invite.get']) !!}>
-            <li class="{{ sidebar_open(['admin.users.index']) }}">
+          <ul {!! treeview_menu_open(['admin.users.index', 'admin.users.search.get', 'admin.users.create']) !!}>
+            <li class="{{ sidebar_open(['admin.users.index', 'admin.users.search.get']) }}">
               <a href="{{ route('admin.users.index') }}"><i class="fa fa-circle-o"></i>用户列表</a>
             </li>
             <li class="{{ sidebar_open(['admin.users.create']) }}">
@@ -32,9 +32,13 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('admin.roles.index') }}"><i class="fa fa-circle-o"></i>角色列表</a></li>
-            <li><a href="{{ route('admin.roles.create') }}"><i class="fa fa-circle-o"></i>新建角色</a></li>
+          <ul {!! treeview_menu_open(['admin.roles.index', 'admin.roles.search.get', 'admin.roles.create']) !!}>
+            <li class="{{ sidebar_open(['admin.roles.index', 'admin.roles.search.get']) }}">
+              <a href="{{ route('admin.roles.index') }}"><i class="fa fa-circle-o"></i>角色列表</a>
+            </li>
+            <li class="{{ sidebar_open(['admin.roles.create']) }}">
+              <a href="{{ route('admin.roles.create') }}"><i class="fa fa-circle-o"></i>新建角色</a>
+            </li>
           </ul>
         </li>
         <li>

@@ -1,7 +1,16 @@
-@if (Route::currentRouteName() === 'admin._lower_casePlural_.create')
-  {!! Form::open(['route' => 'admin._lower_casePlural_.store', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+@if (Route::currentRouteName() === '_prefix_lower_._resource_name_.create')
+  {!! Form::open(['route' => '_prefix_lower_._resource_name_.store', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
 @else
-  {!! Form::model($_lower_case_, ['route' => ['admin._lower_casePlural_.update', $_lower_case_->id], 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
+  {!! Form::model($_camel_caseSingular, ['route' => ['_prefix_lower_._resource_name_.update', $_camel_caseSingular->id], 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
 @endif
 _form_elements
-{{!! Form::close() !!}}
+<div class="box-footer text-right">
+  <a class="btn btn-default" href="{{ URL::previous() }}">取消</a>
+  @if (Route::currentRouteName() === '_prefix_lower_._resource_name_.create')
+    <button type="submit" class="btn btn-primary">创建</button>
+  @else
+    <button type="submit" class="btn btn-primary">更新</button>
+  @endif 
+  <div class="col-sm-2 pull-right"></div>
+</div>
+{!! Form::close() !!}

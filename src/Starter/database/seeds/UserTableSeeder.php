@@ -1,8 +1,10 @@
 <?php
 
-use App\Services\UserService;
-use App\Repositories\User\User;
+use {{App\}}\Services\UserService;
+use {{App\}}\Repositories\User\User;
 use Illuminate\Database\Seeder;
+
+
 
 class UserTableSeeder extends Seeder
 {
@@ -16,10 +18,11 @@ class UserTableSeeder extends Seeder
         $service = app(UserService::class);
 
         $user = User::create([
+            'name' => 'Admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin'),
         ]);
 
-        $service->create($user, 'admin', 'admin', false);
+        $service->create($user, 'admin', 1, false);
     }
 }

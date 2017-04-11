@@ -1,13 +1,5 @@
-        <li class="treeview {{ sidebar_open(['admin._lower_casePlural_.*']) }}">
-          <a href="#">
-            <i class="fa fa-user-secret"></i>
-            <span>{{ trans('_lower_casePlural__management') }}</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('admin._lower_casePlural_.index') }}"><i class="fa fa-circle-o"></i>{{ trans('_lower_casePlural__lists') }}</a></li>
-            <li><a href="{{ route('admin._lower_casePlural_.create') }}"><i class="fa fa-circle-o"></i>{{ trans('_lower_casePlural__add') }}</a></li>
-          </ul>
+        <li class="treeview">
+            <a href="{{ route('_prefix_lower_._resource_name_.index') }}">
+              <i class="fa fa-bank"></i><span>{{ trans('_resource_name_.index') }</span>
+            </a>
         </li>

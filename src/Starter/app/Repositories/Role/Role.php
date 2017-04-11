@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The database table used by the model.

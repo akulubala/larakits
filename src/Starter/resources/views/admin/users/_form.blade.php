@@ -19,7 +19,7 @@
   <div class="form-group">
         <label class="col-sm-2 control-label">角色</label>
         <div class="col-sm-10">
-        {!! Form::select('roles[]', $roles->lists('name', 'id'), isset($selectedRoles) ? $selectedRoles : null, ['class' => 'form-control select2', 'multiple' => 'multiple', 'placeholder' => '角色']) !!}
+        {!! Form::select('roles[]', $roles->pluck('name', 'id'), isset($selectedRoles) ? $selectedRoles : null, ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
         </div>
   </div>
 </div>

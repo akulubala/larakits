@@ -79,7 +79,7 @@ class _camel_case_Repository
      */
     public function find($id)
     {
-        return $this->model->find($id);
+        return $this->model->findOrFail($id);
     }
 
     /**

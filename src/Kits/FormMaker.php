@@ -37,13 +37,13 @@ class FormMaker
         $this->formElementMaker = new FormElementMaker();
     }
 
-    public function fromFileDefinition($schemaDefineFile)
+    public function fromFileDefinition($schemaDefineFile, $resouce)
     {
         $schemaHtmlDefinitions = include_once($schemaDefineFile);
         $formHtml = "";
         foreach ($schemaHtmlDefinitions as $column => $type) 
         {
-            $formHtml .= $this->formElementMaker->create($column, $type);
+            $formHtml .= $this->formElementMaker->create($column, $resouce, $type);
         }
         return $formHtml;
     }

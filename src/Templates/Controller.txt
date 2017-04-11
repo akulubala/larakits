@@ -9,9 +9,9 @@ use _namespace_request_\_camel_case_Request;
 
 class _camel_case_Controller extends Controller
 {
-    public function __construct(_camel_case_Service $_lower_case_Service)
+    public function __construct(_camel_case_Service $_camel_case_Service)
     {
-        $this->service = $_lower_case_Service;
+        $this->service = $_camel_case_Service;
     }
 
     /**
@@ -21,8 +21,8 @@ class _camel_case_Controller extends Controller
      */
     public function index(Request $request)
     {
-        $_lower_casePlural_ = $this->service->paginated();
-        return view('_sectionPrefix__lower_casePlural_.index')->with('_lower_casePlural_', $_lower_casePlural_);
+        $_camel_case_ = $this->service->paginated();
+        return view('_prefix_lower_._resource_name_.index', compact('_camel_case_'));
     }
 
     /**
@@ -32,8 +32,8 @@ class _camel_case_Controller extends Controller
      */
     public function search(Request $request)
     {
-        $_lower_casePlural_ = $this->service->search($request->search);
-        return view('_sectionPrefix__lower_casePlural_.index')->with('_lower_casePlural_', $_lower_casePlural_);
+        $_camel_case_ = $this->service->search($request->search);
+        return view('_prefix_lower_._resource_name_.index', compact('_camel_case_'));
     }
 
     /**
@@ -43,7 +43,7 @@ class _camel_case_Controller extends Controller
      */
     public function create()
     {
-        return view('_sectionPrefix__lower_casePlural_.create');
+        return view('_prefix_lower_._resource_name_.create');
     }
 
     /**
@@ -57,38 +57,38 @@ class _camel_case_Controller extends Controller
         $result = $this->service->create($request->except('_token'));
 
         if ($result) {
-            return redirect('_sectionRoutePrefix__lower_casePlural_/'.$result->id.'/edit')->with('message', 'Successfully created');
+            return redirect()->route('_prefix_lower_._resource_name_/')->with('status', 'Successfully created');
         }
 
-        return redirect('_sectionRoutePrefix__lower_casePlural_')->with('message', 'Failed to create');
+        return redirect('_prefix_lower_/_resource_name_')->with('status', 'Failed to create');
     }
 
     /**
-     * Display the _lower_casePlural_.
+     * Display the _resource_name_.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $_lower_case_ = $this->service->find($id);
-        return view('_sectionPrefix__lower_casePlural_.show')->with('_lower_case_', $_lower_case_);
+        $_camel_caseSingular = $this->service->find($id);
+        return view('_prefix_lower_._resource_name_.show', '_camel_caseSingular');
     }
 
     /**
-     * Show the form for editing the _lower_casePlural_.
+     * Show the form for editing the _resource_name_.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $_lower_case_ = $this->service->find($id);
-        return view('_sectionPrefix__lower_casePlural_.edit')->with('_lower_case_', $_lower_case_);
+        $_camel_caseSingular = $this->service->find($id);
+        return view('_prefix_lower_._resource_name_.edit', '_camel_caseSingular');
     }
 
     /**
-     * Update the _lower_casePlural_ in storage.
+     * Update the _resource_name_ in storage.
      *
      * @param  \Illuminate\Http\_camel_case_Request  $request
      * @param  int  $id
@@ -99,14 +99,14 @@ class _camel_case_Controller extends Controller
         $result = $this->service->update($id, $request->except('_token'));
 
         if ($result) {
-            return back()->with('message', 'Successfully updated');
+            return back()->with('status', 'Successfully updated');
         }
 
-        return back()->with('message', 'Failed to update');
+        return back()->with('status', 'Failed to update');
     }
 
     /**
-     * Remove the _lower_casePlural_ from storage.
+     * Remove the _resource_name_ from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -116,9 +116,9 @@ class _camel_case_Controller extends Controller
         $result = $this->service->destroy($id);
 
         if ($result) {
-            return redirect('_sectionRoutePrefix__lower_casePlural_')->with('message', 'Successfully deleted');
+            return redirect('_prefix_lower_/_resource_name_')->with('status', 'Successfully deleted');
         }
 
-        return redirect('_sectionRoutePrefix__lower_casePlural_')->with('message', 'Failed to delete');
+        return redirect('_prefix_lower_/_resource_name_')->with('status', 'Failed to delete');
     }
 }

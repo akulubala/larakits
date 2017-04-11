@@ -6,7 +6,6 @@ if (!function_exists('sidebar_open')) {
         foreach ($routes as $route) {
         	if (str_contains($route, '*')) {
         		if (str_contains($currRoute, substr($route, '-1'))) {
-        			dd(substr($route, '-1'));
         			$open = true;
         			break;
         		}
@@ -17,7 +16,6 @@ if (!function_exists('sidebar_open')) {
         		}
         	}
         }
-
         return $open ? 'active' : '';
     }
 }

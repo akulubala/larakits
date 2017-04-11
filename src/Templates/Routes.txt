@@ -5,5 +5,5 @@
 |--------------------------------------------------------------------------
 */
 
-Route::resource('_lower_casePlural_', '_camel_case_Controller', ['except' => ['show']]);
-Route::post('_lower_casePlural_/search', '_camel_case_Controller@search');
+Route::resource('_resource_name_', '_camel_case_Controller', ['as' => '_prefix_lower_']);
+Route::get('_resource_name_/search', ['uses' => '_camel_case_Controller@search', 'as' => 'admin._resource_name_.search.get']);

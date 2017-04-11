@@ -1,18 +1,28 @@
-<form method="POST" action="/admin/roles">
-    {!! csrf_field() !!}
-
-    <div class="col-md-12 raw-margin-top-24">
-        @input_maker_label('Name')
-        @input_maker_create('name', ['type' => 'string'])
+@if (Route::currentRouteName() === 'admin.roles.create')
+  {!! Form::open(['route' => 'admin.roles.store', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+@else
+  {!! Form::model($role, ['route' => ['admin.roles.update', $role->id], 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
+@endif 
+<div class="box-body">
+  <div class="form-group">
+    <label class="col-sm-2 control-label">显示名称</label>
+    <div class="col-sm-10">
+      {!! Form::text('label', null, ['class' => 'form-control', 'placeholder' => '显示名称']) !!}
     </div>
-
-    <div class="col-md-12 raw-margin-top-24">
-        @input_maker_label('Label')
-        @input_maker_create('label', ['type' => 'string'])
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">角色名</label>
+    <div class="col-sm-10">
+      {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => '角色名']) !!}
     </div>
-
-    <div class="col-md-12 raw-margin-top-24">
-        <a class="btn btn-default pull-left" href="{{ URL::previous() }}">Cancel</a>
-        <button class="btn btn-primary pull-right" type="submit">Create</button>
-    </div>
-</form>
+  </div>
+</div>
+<div class="box-footer text-right">
+  <a class="btn btn-default" href="{{ URL::previous() }}">取消</a>
+  @if (Route::currentRouteName() === 'admin.roles.create')
+    <button type="submit" class="btn btn-primary">创建</button>
+  @else
+    <button type="submit" class="btn btn-primary">编辑</button>
+  @endif 
+</div>
+{!! Form::close() !!}

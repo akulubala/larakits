@@ -100,7 +100,7 @@ class UserService
             $instance = $this;
             $userMetaResult = null;
             $userResult = null;
-            DB::transaction(function () use ($instance, $inputs, $password, $userId, &$userMetaResult, &$userResult) {
+            DB::transaction(function () use ($instance, $inputs, $userId, &$userMetaResult, &$userResult) {
 
                 $userMetaResult = (isset($inputs['meta'])) ? $instance->userMetaRepo->update($userId, $inputs['meta']) : true;
                 $userResult = $instance->userRepo->update($userId, $inputs);

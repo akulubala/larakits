@@ -12,15 +12,15 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        if (! Role::where('name', 'member')->first()) {
-            Role::create([
-                'name' => 'member',
-                'label' => 'Member',
-            ]);
-            Role::create([
-                'name' => 'admin',
-                'label' => 'Admin',
-            ]);
+        //initial basic role
+        $roles = ['admin', 'member'];
+        if ( Role::get()->isEmpty() ) {
+            foreach ($roles as $role) {
+                Role::create([
+                    'name' => $role,
+                    'label' => ucfirst($role)
+                ]);
+            }
         }
     }
 }

@@ -1,0 +1,16 @@
+<div class="box-header with-border">
+      <h3 class="box-title">
+      	<a href="{{ route('_prefix_lower_._resource_name_.create') }}" class="btn btn-block btn-primary btn-xs"><i class="glyphicon glyphicon-plus"></i>{{ trans('_resource_name_.create') }}</a>
+      </h3>
+      <div class="box-tools">
+         <form id="" class="pull-right raw-margin-top-24 raw-margin-left-24" method="get" action="{{ route('_prefix_lower_._resource_name_.search.get') }}">
+         	{!! csrf_field() !!}
+	        <div class="input-group input-group-sm" style="width: 200px;">
+	          <input type="text" name="search" value="{{ Request::get('search') }}" class="form-control pull-right" placeholder=",">
+	          <div class="input-group-btn">
+	            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+	          </div>
+	        </div>
+        </form>
+      </div>
+</div>

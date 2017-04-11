@@ -6,7 +6,7 @@
   <title>{{ env('APP_NAME') }} | @yield('title')</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
+  <link rel="stylesheet" href="{{ elixir('css/admin.css') }}">
   @yield('style')
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -27,7 +27,7 @@
   <!-- /.content-wrapper -->
 </div>
 <!-- ./wrapper -->
-<script src="{{ elixir('js/all.js') }}"></script>
+<script src="{{ elixir('js/admin.js') }}"></script>
 @yield('js')
 </body>
 </html>

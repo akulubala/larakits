@@ -87,8 +87,8 @@ class RoleService
     {
         try {
             $instance = $this;
-            DB::transaction(function () use ($instance, $id) {
-                $result = false;
+            $result = false;
+            DB::transaction(function () use ($instance, $id, $result) {
                 $userCount = count($instance->userService->findByRoleID($id));
                 if ($userCount == 0) {
                     $result = $instance->repo->destroy($id);

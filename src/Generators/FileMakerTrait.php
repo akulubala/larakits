@@ -3,11 +3,14 @@
 namespace Tks\Larakits\Generators;
 
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Console\AppNamespaceDetectorTrait;
+use Illuminate\Container\Container;
 
 trait FileMakerTrait
 {
-    use AppNamespaceDetectorTrait;
+    protected function getAppNamespace()
+    {
+         return Container::getInstance()->getNamespace();
+    }
 
     public function copyPreparedFiles($directory, $destination)
     {
